@@ -6,6 +6,9 @@ class Athletes:
 
     def listByLength(self):
         
+        AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+        file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+
         dictAthletes = dict() #Create dictionary to store CSV sections
         for column in file:
             key = column["Name"]
@@ -19,20 +22,34 @@ class Athletes:
            orderedDict[k] = dictAthletes[k]
            print(k, orderedDict[k])
 
+        print('\n' * 2)
+
+        AthletesList.close()
  
         
     def listTopFive(self):
 
-        dictAthletes = dict() #Create dictionary to store CSV sections
+        AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+        file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+
         NOC = []
         for column in file:
             NOC.append(column["NOC"]) #Add the data in the NOC section of the CSV to the NOC list
-
-        count = Counter(NOC)
+        print ("The top five countries with the highest number of athletes are : ")
         print(*sorted(Counter(NOC).most_common(5), key=lambda x: (-x[1], x[0])), sep = '\n')
+        print ('\n' * 2)
+
+        AthletesList.close()
+        
+
+        
         #This will then sort the count descending and then will sort by name ascending in case there is NOC's with the same number of athletes.
 
     def listTopDiscipline(self):
+
+        AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+        file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+
         nocUSA = []
         disciplineUSA = []
 
@@ -86,35 +103,14 @@ class Athletes:
         print(*sorted(Counter(disciplineGermany).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
         print('\n' * 2)
 
+        AthletesList.close()
+
 
 
 Adelekan = Athletes() #Create an object of class athletes
-AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
-file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
-#Adelekan.listByLength()         
-#Adelekan.listTopFive()
+Adelekan.listByLength()         
+Adelekan.listTopFive()
 Adelekan.listTopDiscipline()
 
 
 
-
-
-
-
-
-#Method to sort names in order of length
-#sortedNames = sorted(key, key=lambda x: -len(x), reverse=True) #Sort the names list in order of length
-#print(*sortedNames, sep = '\n') #Change the format of the list from vertical to horizontal
-
-#def openAthletes(self):
-        
-        #with open('Athletes.csv', 'r',) as file:
-            #reader = csv.reader(file)
-            #for row in reader:
-             #   nameColumn.append(row[0])
-            #for item in nameColumn:
-             #   print(item)
-
-    #def openAthletes2(self):
-       # filename = open('Athletes.csv', 'r')
-        #file = csv.DictReader(filename)
