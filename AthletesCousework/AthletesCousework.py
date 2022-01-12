@@ -22,6 +22,7 @@ class Athletes:
  
         
     def listTopFive(self):
+
         dictAthletes = dict() #Create dictionary to store CSV sections
         NOC = []
         for column in file:
@@ -32,14 +33,58 @@ class Athletes:
         #This will then sort the count descending and then will sort by name ascending in case there is NOC's with the same number of athletes.
 
     def listTopDiscipline(self):
-        dictAthletes = dict()
+        nocUSA = []
+        disciplineUSA = []
+
+        nocJapan = []
+        disciplineJapan = []
+
+        nocAustralia = []
+        disciplineAustralia = []
+
+        nocChina = []
+        disciplineChina = []
+
+        nocGermany = []
+        disciplineGermany = []
+
+
         for column in file:
-            key = column["NOC"]
-            value = {"Discipline": column["Discipline"]}
-            dictAthletes[key]= value
+            if "United States of America" in column["NOC"]:
+                nocUSA.append(column["NOC"])
+                disciplineUSA.append(column["Discipline"])
+            if "Japan" in column["NOC"]:
+                nocJapan.append(column["NOC"])
+                disciplineJapan.append(column["Discipline"])
+            if "Australia" in column["NOC"]:
+                nocAustralia.append(column["NOC"])
+                disciplineAustralia.append(column["Discipline"])
+            if "China" in column["NOC"]:
+                nocChina.append(column["NOC"])
+                disciplineChina.append(column["Discipline"])
+            if "Germany" in column["NOC"]:
+                nocGermany.append(column["NOC"])
+                disciplineGermany.append(column["Discipline"])
+        
+        print("The top discipline in America is : ")
+        print(*sorted(Counter(disciplineUSA).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
+        print('\n' * 2)
 
+        print("The top discipline in Japan is : ")
+        print(*sorted(Counter(disciplineJapan).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
+        print('\n' * 2)
 
+        print("The top discipline in Australia is : ")
+        print(*sorted(Counter(disciplineAustralia).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
+        print('\n' * 2)
 
+        print("The top discipline in China is : ")
+        print(*sorted(Counter(disciplineChina).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
+        print('\n' * 2)
+
+        print("The top discipline in Germany is : ")
+        print(*sorted(Counter(disciplineGermany).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
+        print('\n' * 2)
 
 
 
