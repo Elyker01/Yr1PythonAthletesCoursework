@@ -2,17 +2,65 @@ import csv
 from collections import Counter
 import time
 import os
+import string
 
 class Athletes:
     
     def __init__(self):
+       
         pass
     
+
+    def listShortestandLongest(self):
+
+        AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+        file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+
+        dictAthletes = dict() #Create dictionary to store CSV sections
+        for column in file:
+            key = column["Name"]
+            strippedKey = key.strip()
+            finalKeys = strippedKey.replace(".", "")
+            value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
+            dictAthletes[finalKeys]= value
+
+
+        orderedDict = {}
+        for k in sorted(dictAthletes, key = len):
+           if len(k) < 5:
+               orderedDict[k] = dictAthletes[k]
+               print(k, orderedDict[k])
+          
+           if len(k) > 34:
+               orderedDict[k] = dictAthletes[k]
+               print(k, orderedDict[k])
+               
+
+        print('\n' * 2)
+
+        AthletesList.close()
+
+        
+        
+ 
+                
+
+
+
 
     def listNamesByLength(self):
         """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
            it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
-           it creates another empty dictionary where the data is ordered by using the sorted method, using the length as the key. """
+           it creates another empty dictionary where the data is ordered by using the sorted method, using the length as the key. 
+
+           Test
+
+           >>> testAthletes = Athletes()
+           
+
+           """
+
+
 
         AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
         file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
@@ -22,6 +70,7 @@ class Athletes:
             key = column["Name"]
             value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
             dictAthletes[key]= value
+   
 
             #Iterate through the CSV file and set the column Name as the key, and the NOC and Discipline as the values.
 
@@ -69,6 +118,7 @@ class Athletes:
 
         nocUSA = []
         disciplineUSA = []
+
 
         nocJapan = []
         disciplineJapan = []
@@ -126,9 +176,16 @@ class Athletes:
         AthletesList.close()
 
 
+class AthletesChild(Athletes):
+    def __init__(self,names, NOC,Discipline):
+        super().__init()
+        Athletes
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
 
 Adelekan = Athletes() #Create an object of class athletes
-
 print("Hello and welcome to the Tokyo Olympics 2020 Database.", '\n')
 time.sleep(2)
 print("If you'd like to list the athletes by name length please type 'NAMES'", '\n')
@@ -139,13 +196,15 @@ print("If you'd like to list the top discipline for the top five countries pleas
 time.sleep(2)
 #Print statements to start off the program and show the user what they need to type once prompted
 
+
+
 while True: #While loop in order to wait until a condition is met which is correct user input
     print('\n')
     choice = input("Please type in your option -> ")
     time.sleep(2)
     if choice.upper() == 'NAMES' or choice.lower() == 'names': #User input validation
         print('\n')
-        Adelekan.listNamesByLength() 
+        Adelekan.listShortestandLongest()
         time.sleep(2)
         while True: #Nested while loop to check if user wants to find out more information e.g run the code above
             continueOption = input("Would you like to find out more information? Y/N  " '\n')
@@ -159,6 +218,7 @@ while True: #While loop in order to wait until a condition is met which is corre
                 print('\n')
                 time.sleep(1)
                 print("Thank you for visiting this database!")
+                print('\n')
                 os._exit(1)
                 
                 
@@ -188,6 +248,7 @@ while True: #While loop in order to wait until a condition is met which is corre
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
                 print("Thank you for visiting this database!")
+                print('\n')
                 os._exit(1)
                 
                 
@@ -212,6 +273,7 @@ while True: #While loop in order to wait until a condition is met which is corre
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
                 print("Thank you for visiting this database!")
+                print('\n')
                 os._exit(1)
                 
                 
@@ -235,10 +297,6 @@ while True: #While loop in order to wait until a condition is met which is corre
 
 
 
-
-#Adelekan.listNamesByLength()     
-#Adelekan.listTopFiveCountries()
-#Adelekan.listTopDiscipline()
 
 
 
