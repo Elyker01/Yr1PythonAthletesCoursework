@@ -248,7 +248,6 @@ if __name__ == "__main__":
     doctest.testmod()
 
 Adelekan = Athletes() #Create an object of class athletes
-AdelekanChild = AthletesChild()
 print("Hello and welcome to the Tokyo Olympics 2020 Database.", '\n')
 time.sleep(2)
 print("If you'd like to list the shortest and longest athlete names please type 'NAMES'", '\n')
@@ -302,6 +301,7 @@ while True: #While loop in order to wait until a condition is met which is corre
                
     elif choice.upper() == 'SHORT' or choice.lower() == 'short':
         print('\n')
+        AdelekanChild = AthletesChild()
         AdelekanChild.listNames(True)
         time.sleep(2)
         while True:
@@ -330,6 +330,7 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'LONG' or choice.lower() == 'long':
         print('\n')
+        AdelekanChild = AthletesChild()
         AdelekanChild.listNames(False)
         time.sleep(2)
         while True:
