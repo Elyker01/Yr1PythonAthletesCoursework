@@ -11,7 +11,7 @@ class Athletes:
         pass
     
 
-    def listShortestandLongest(self):
+    def listNames(self):
 
         AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
         file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
@@ -178,24 +178,90 @@ class Athletes:
         AthletesList.close()
 
 
+
+
+
 class AthletesChild(Athletes):
-    def __init__(self,names, NOC,Discipline):
-        super().__init()
-        Athletes
+
+    def __init__(self):
+        super().__init__()
+        shortest = None
+
+    def listNames(self,shortest):
+        if shortest == True:
+            AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+            file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+        
+
+            dictAthletes = dict() #Create dictionary to store CSV sections
+            for column in file:
+                column["Name"] = column["Name"].rstrip(".").rstrip()
+                key = column["Name"]
+                value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
+                dictAthletes[key]= value
+
+
+            orderedDict = {}
+            for k in sorted(dictAthletes, key = len):
+                if len(k.replace(" ","").replace(".","").replace("'","")) < 5:
+                    orderedDict[k] = dictAthletes[k]
+                    print(k, orderedDict[k])
+        
+        
+            print('\n' * 2)
+            AthletesList.close()
+
+        elif shortest == False:
+            AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+            file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+        
+
+            dictAthletes = dict() #Create dictionary to store CSV sections
+            for column in file:
+                column["Name"] = column["Name"].rstrip(".").rstrip()
+                key = column["Name"]
+                value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
+                dictAthletes[key]= value
+
+
+            orderedDict = {}
+            for k in sorted(dictAthletes, key = len):
+                if len(k.replace(" ","").replace(".","").replace("'","")) > 31:
+                    orderedDict[k] = dictAthletes[k]
+                    print(k, orderedDict[k])
+        
+        
+            print('\n' * 2)
+            AthletesList.close()
+
+    
+
+
+
+
+
+
+    
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
 
 Adelekan = Athletes() #Create an object of class athletes
+AdelekanChild = AthletesChild()
 print("Hello and welcome to the Tokyo Olympics 2020 Database.", '\n')
-#time.sleep(2)
-print("If you'd like to list the athletes by name length please type 'NAMES'", '\n')
-#time.sleep(2)
+time.sleep(2)
+print("If you'd like to list the shortest and longest athlete names please type 'NAMES'", '\n')
+time.sleep(2)
+print("If you'd like to list only the shortest athlete names please type 'SHORT'", '\n')
+time.sleep(2)
+print("If you'd like to list only the longest athlete names please type 'LONG'", '\n')
+time.sleep(2)
 print("If you'd like to list the top five countries by number of athletes please type 'COUNTRIES'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list the top discipline for the top five countries please type length please type 'DISCIPLINES'", '\n')
-#time.sleep(2)
+time.sleep(2)
+
 #Print statements to start off the program and show the user what they need to type once prompted
 
 
@@ -206,8 +272,9 @@ while True: #While loop in order to wait until a condition is met which is corre
     time.sleep(2)
     if choice.upper() == 'NAMES' or choice.lower() == 'names': #User input validation
         print('\n')
-        Adelekan.listShortestandLongest()
+        Adelekan.listNames()
         time.sleep(2)
+
         while True: #Nested while loop to check if user wants to find out more information e.g run the code above
             continueOption = input("Would you like to find out more information? Y/N  " '\n')
             if continueOption.lower() in ("y", "yes"):
@@ -233,6 +300,60 @@ while True: #While loop in order to wait until a condition is met which is corre
             
 
                
+    elif choice.upper() == 'SHORT' or choice.lower() == 'short':
+        print('\n')
+        AdelekanChild.listNames(True)
+        time.sleep(2)
+        while True:
+            continueOption = input("Would you like to find out more information? Y/N  " '\n')
+            if continueOption.lower() in ("y", "yes"):
+                print('\n')
+                time.sleep(1)
+                print ("Great! " '\n')
+                time.sleep(1)
+                break
+                
+            elif continueOption.lower() in ("n", "no"):
+                print('\n')
+                print("Thank you for visiting this database!")
+                print('\n')
+                os._exit(1)
+                
+                
+                
+
+            elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
+                time.sleep(1)
+                print('\n')
+                print("Invalid answer, please type Y or N")
+
+
+    elif choice.upper() == 'LONG' or choice.lower() == 'long':
+        print('\n')
+        AdelekanChild.listNames(False)
+        time.sleep(2)
+        while True:
+            continueOption = input("Would you like to find out more information? Y/N  " '\n')
+            if continueOption.lower() in ("y", "yes"):
+                print('\n')
+                time.sleep(1)
+                print ("Great! " '\n')
+                time.sleep(1)
+                break
+                
+            elif continueOption.lower() in ("n", "no"):
+                print('\n')
+                print("Thank you for visiting this database!")
+                print('\n')
+                os._exit(1)
+                
+                
+                
+
+            elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
+                time.sleep(1)
+                print('\n')
+                print("Invalid answer, please type Y or N")
 
     elif choice.upper() == 'COUNTRIES' or choice.lower() == 'countries':
         print('\n')
