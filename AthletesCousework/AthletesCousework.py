@@ -15,25 +15,27 @@ class Athletes:
 
         AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
         file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+        
 
         dictAthletes = dict() #Create dictionary to store CSV sections
         for column in file:
+            column["Name"] = column["Name"].rstrip(".").rstrip()
             key = column["Name"]
-            strippedKey = key.strip()
-            finalKeys = strippedKey.replace(".", "")
             value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
-            dictAthletes[finalKeys]= value
+            dictAthletes[key]= value
 
 
         orderedDict = {}
         for k in sorted(dictAthletes, key = len):
-           if len(k) < 5:
-               orderedDict[k] = dictAthletes[k]
-               print(k, orderedDict[k])
+            if len(k.replace(" ","").replace(".","").replace("'","")) < 5:
+                orderedDict[k] = dictAthletes[k]
+                print(k, orderedDict[k])
           
-           if len(k) > 34:
-               orderedDict[k] = dictAthletes[k]
-               print(k, orderedDict[k])
+            if len(k.replace(" ","").replace(".","").replace("'","")) > 31:
+                orderedDict[k] = dictAthletes[k]
+                print(k, orderedDict[k])
+
+            
                
 
         print('\n' * 2)
@@ -187,13 +189,13 @@ if __name__ == "__main__":
 
 Adelekan = Athletes() #Create an object of class athletes
 print("Hello and welcome to the Tokyo Olympics 2020 Database.", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list the athletes by name length please type 'NAMES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list the top five countries by number of athletes please type 'COUNTRIES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list the top discipline for the top five countries please type length please type 'DISCIPLINES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 #Print statements to start off the program and show the user what they need to type once prompted
 
 
