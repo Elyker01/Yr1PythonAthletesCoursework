@@ -9,13 +9,19 @@ class Athletes:
     def __init__(self):
         """ 
         Constructor that creates an object of class Athletes and contains a boolean variable named isCreated
-        in order to check whether the object has been created successfully
+        in order to check whether the object has been created successfully.
         """
 
         isCreated = True
         
     def __del__(self):
-        """ Destructor that deletes object of class Athletes and gives an exit message to the user """
+        """ Destructor that deletes object of class Athletes and gives an exit message to the user
+
+        >>> Adelekan = Athletes()
+        >>> del Adelekan
+        "Thank you for visiting this database!"
+        """
+
         print("Thank you for visiting this database!")
     
 
@@ -24,7 +30,17 @@ class Athletes:
         """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
            it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
            it creates another empty dictionary where the data is sorted by the length of the names, regardless of whitespace, fullstops
-           or apostrophes."""
+           or apostrophes.
+
+        >>> with open("test.csv", 'r') as file:
+        ...     for column in file:
+        ...         column[0] = column[0].rstrip(".").rstrip() 
+        ...         if "." not in column[0]:
+        ...             print("True")
+        "True"
+          
+          
+           """
 
 
         AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
@@ -45,7 +61,8 @@ class Athletes:
         for k in sorted(dictAthletes, key = len):
             if len(k.replace(" ","").replace(".","").replace("'","")) < 5:
                 orderedDict[k] = dictAthletes[k]
-                yield(k, orderedDict[k])
+                yield(k, orderedDict[k]) #Generator is created here which is then iterated upon in main method
+
         #Use a for loop in order to arrange the keys in order of length by using the sorted and the replace method, 
         #ignoring whitespace,full stops and apostrophes.
           
@@ -114,7 +131,8 @@ class Athletes:
             NOC.append(column["NOC"]) #Add the data in the NOC section of the CSV to the NOC list
 
         print ("The top five countries with the highest number of athletes are : ", '\n')
-        print(*sorted(Counter(NOC).most_common(5), key=lambda x: (-x[1], x[0])), sep = '\n') #Use counter in order to count the most common values for the NOC, with their respective number of athletes.
+        print(*sorted(Counter(NOC).most_common(5), key=lambda x: (-x[1], x[0])), sep = '\n') #Use counter in order to count the most common values for the NOC, with their respective number of athletes
+                                                                                             #and lambda function in order to sort it alphabetically, in case they have the same number of athletes .
         print ('\n' * 2)
 
         AthletesList.close()
@@ -200,7 +218,6 @@ class AthletesChild(Athletes):
     def __init__(self):
         """ This constructor inherits the Athletes class variable and methods which can be used in the child class and be overriden"""
         super().__init__()
-        shortest = None
 
 
     def listNames(self,shortest):
@@ -238,6 +255,10 @@ class AthletesChild(Athletes):
 
       
         def innerListNames(longest):
+            """ Inner function here with a decorator in the main function which is then called when the user inputs 'long' when prompted. It opens the CSV file and creates an empty dict.
+                It then appends each column and adds it to the key/value. Lastly, it prints out all the keys and values where the name is longer than
+                31 characters (ignoring whitespace, fullstops and apostrophes). """
+
             if longest == False:
                 AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
                 file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
@@ -281,21 +302,22 @@ if __name__ == "__main__":
     doctest.testmod()
 
 Adelekan = Athletes() #Create an object of class athletes
-AdelekanChild = AthletesChild()
+AdelekanChild = AthletesChild() # Create an object of child class
+
 print("Hello and welcome to the Tokyo Olympics 2020 Database.", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list the shortest and longest athlete names please type 'NAMES'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list only the shortest athlete names please type 'SHORT'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list only the longest athlete names please type 'LONG'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list all the athletes name from shortest to longest please type 'ALL NAMES'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list the top five countries by number of athletes please type 'COUNTRIES'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list the top discipline for the top five countries please type length please type 'DISCIPLINES'", '\n')
-#time.sleep(2)
+time.sleep(2)
 
 #Print statements to start off the program and show the user what they need to type once prompted
 
@@ -361,7 +383,7 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'LONG' or choice.lower() == 'long':
         print('\n')
-        listLongest = AdelekanChild.listNames(False)
+        listLongest = AdelekanChild.listNames(False) #Function decorator here which calls on the inner function
         listLongest(False)
         time.sleep(2)
         while True:
@@ -388,7 +410,7 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'ALL NAMES' or choice.lower() == 'all names':
         print('\n')
-        for k in Adelekan.listNamesByLength():
+        for k in Adelekan.listNamesByLength(): #Generator that is created in that function is now iterated upon, and prints out the dictionary
             print(k)
         time.sleep(2)
         while True:
