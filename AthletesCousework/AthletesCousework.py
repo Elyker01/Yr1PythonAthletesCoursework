@@ -45,13 +45,13 @@ class Athletes:
         for k in sorted(dictAthletes, key = len):
             if len(k.replace(" ","").replace(".","").replace("'","")) < 5:
                 orderedDict[k] = dictAthletes[k]
-                print(k, orderedDict[k])
+                yield(k, orderedDict[k])
         #Use a for loop in order to arrange the keys in order of length by using the sorted and the replace method, 
         #ignoring whitespace,full stops and apostrophes.
           
             if len(k.replace(" ","").replace(".","").replace("'","")) > 31:
                 orderedDict[k] = dictAthletes[k]
-                print(k, orderedDict[k])
+                yield(k, orderedDict[k])
 
             
                
@@ -93,7 +93,7 @@ class Athletes:
         orderedDict = {}
         for k in sorted(dictAthletes, key=lambda k: len(k.replace(' ', '').replace(".","").replace("'",""))): #Sorting the dictionary, ignoring whitespace, fullstops and apostrophes
                orderedDict[k] = dictAthletes[k] 
-               print(k, orderedDict[k])
+               yield(k, orderedDict[k])
            #Use a for loop in order to arrange the keys in order of length by using the sorted method
 
         print('\n' * 2)
@@ -202,6 +202,7 @@ class AthletesChild(Athletes):
         super().__init__()
         shortest = None
 
+
     def listNames(self,shortest):
         """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
            it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
@@ -235,31 +236,36 @@ class AthletesChild(Athletes):
             print('\n' * 2)
             AthletesList.close()
 
-        elif shortest == False:
-            AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
-            file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+      
+        def innerListNames(longest):
+            if longest == False:
+                AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+                file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
         
 
-            dictAthletes = dict() #Create dictionary to store CSV sections
-            for column in file:
-                column["Name"] = column["Name"].rstrip(".").rstrip()
-                key = column["Name"]
-                value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
-                dictAthletes[key]= value
+                dictAthletes = dict() #Create dictionary to store CSV sections
+                for column in file:
+                    column["Name"] = column["Name"].rstrip(".").rstrip()
+                    key = column["Name"]
+                    value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
+                    dictAthletes[key]= value
 
 
-            orderedDict = {}
-            for k in sorted(dictAthletes, key = len):
-                if len(k.replace(" ","").replace(".","").replace("'","")) > 31:
-                    orderedDict[k] = dictAthletes[k]
-                    print(k, orderedDict[k])
-
-            #Use a for loop in order to arrange the keys in order of length by using the sorted and the replace method, 
-            #ignoring whitespace,full stops and apostrophes.
-        
-        
+                orderedDict = {}
+                for k in sorted(dictAthletes, key = len):
+                    if len(k.replace(" ","").replace(".","").replace("'","")) > 31:
+                        orderedDict[k] = dictAthletes[k]
+                        print(k, orderedDict[k])
             print('\n' * 2)
             AthletesList.close()
+        return innerListNames
+
+                #Use a for loop in order to arrange the keys in order of length by using the sorted and the replace method, 
+                #ignoring whitespace,full stops and apostrophes.
+        
+        
+        print('\n' * 2)
+        AthletesList.close()
 
     
 
@@ -275,20 +281,21 @@ if __name__ == "__main__":
     doctest.testmod()
 
 Adelekan = Athletes() #Create an object of class athletes
+AdelekanChild = AthletesChild()
 print("Hello and welcome to the Tokyo Olympics 2020 Database.", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list the shortest and longest athlete names please type 'NAMES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list only the shortest athlete names please type 'SHORT'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list only the longest athlete names please type 'LONG'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list all the athletes name from shortest to longest please type 'ALL NAMES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list the top five countries by number of athletes please type 'COUNTRIES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list the top discipline for the top five countries please type length please type 'DISCIPLINES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 
 #Print statements to start off the program and show the user what they need to type once prompted
 
@@ -300,7 +307,8 @@ while True: #While loop in order to wait until a condition is met which is corre
     time.sleep(2)
     if choice.upper() == 'NAMES' or choice.lower() == 'names': #User input validation
         print('\n')
-        Adelekan.listNames()
+        for k in Adelekan.listNames():
+            print(k)
         time.sleep(2)
 
         while True: #Nested while loop to check if user wants to find out more information e.g run the code above
@@ -327,7 +335,6 @@ while True: #While loop in order to wait until a condition is met which is corre
                
     elif choice.upper() == 'SHORT' or choice.lower() == 'short': #Elif statements for each user choice
         print('\n')
-        AdelekanChild = AthletesChild() #Creates object of child class 'AthletesChild' when short or long choice is picked
         AdelekanChild.listNames(True)
         time.sleep(2)
         while True:
@@ -354,8 +361,8 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'LONG' or choice.lower() == 'long':
         print('\n')
-        AdelekanChild = AthletesChild()
-        AdelekanChild.listNames(False)
+        listLongest = AdelekanChild.listNames(False)
+        listLongest(False)
         time.sleep(2)
         while True:
             continueOption = input("Would you like to find out more information? Y/N  " '\n')
@@ -381,7 +388,8 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'ALL NAMES' or choice.lower() == 'all names':
         print('\n')
-        Adelekan.listNamesByLength()
+        for k in Adelekan.listNamesByLength():
+            print(k)
         time.sleep(2)
         while True:
             continueOption = input("Would you like to find out more information? Y/N  " '\n')
@@ -462,6 +470,7 @@ while True: #While loop in order to wait until a condition is met which is corre
         print("Please retry. ")
         time.sleep(0.5)
         continue
+    
     #If the user inputs an invalid word, then it will loop back to the first while loop where the input begins. This is done in order to avoid the code breaking when incorrect input has been put in.
 
         
