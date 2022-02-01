@@ -7,11 +7,25 @@ import string
 class Athletes:
     
     def __init__(self):
-       
-        pass
+        """ 
+        Constructor that creates an object of class Athletes and contains a boolean variable named isCreated
+        in order to check whether the object has been created successfully
+        """
+
+        isCreated = True
+        
+    def __del__(self):
+        """ Destructor that deletes object of class Athletes and gives an exit message to the user """
+        print("Thank you for visiting this database!")
     
 
     def listNames(self):
+
+        """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
+           it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
+           it creates another empty dictionary where the data is sorted by the length of the names, regardless of whitespace, fullstops
+           or apostrophes."""
+
 
         AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
         file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
@@ -19,10 +33,12 @@ class Athletes:
 
         dictAthletes = dict() #Create dictionary to store CSV sections
         for column in file:
-            column["Name"] = column["Name"].rstrip(".").rstrip()
+            column["Name"] = column["Name"].rstrip(".").rstrip() #rstrip() method removes full stops and trailing whitespace
             key = column["Name"]
             value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
             dictAthletes[key]= value
+
+        #Iterate through the CSV file and set the column Name as the key, and the NOC and Discipline as the values.
 
 
         orderedDict = {}
@@ -30,6 +46,8 @@ class Athletes:
             if len(k.replace(" ","").replace(".","").replace("'","")) < 5:
                 orderedDict[k] = dictAthletes[k]
                 print(k, orderedDict[k])
+        #Use a for loop in order to arrange the keys in order of length by using the sorted and the replace method, 
+        #ignoring whitespace,full stops and apostrophes.
           
             if len(k.replace(" ","").replace(".","").replace("'","")) > 31:
                 orderedDict[k] = dictAthletes[k]
@@ -43,7 +61,9 @@ class Athletes:
         AthletesList.close()
 
         
-        
+        def checkObjectState(self):
+            """ Method that checks whether object of class Athletes has been created """
+            return isCreated
  
                 
 
@@ -53,14 +73,8 @@ class Athletes:
     def listNamesByLength(self):
         """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
            it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
-           it creates another empty dictionary where the data is ordered by using the sorted method, using the length as the key. 
-
-           Test
-
-           >>> testAthletes = Athletes()
-           
-
-           """
+           it creates another empty dictionary where the data is ordered by using the sorted method, using the length(ignoring whitespace,
+          fullstops and apostrophes) as the key. """
 
 
 
@@ -69,17 +83,17 @@ class Athletes:
 
         dictAthletes = dict() #Create dictionary to store CSV sections
         for column in file:
+            column["Name"] = column["Name"].rstrip(".").rstrip() #rstrip() method removes full stops and trailing whitespace
             key = column["Name"]
             value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
             dictAthletes[key]= value
    
-
             #Iterate through the CSV file and set the column Name as the key, and the NOC and Discipline as the values.
 
         orderedDict = {}
-        for k in sorted(dictAthletes, key = len): 
-           orderedDict[k] = dictAthletes[k] 
-           print(k, orderedDict[k])
+        for k in sorted(dictAthletes, key=lambda k: len(k.replace(' ', '').replace(".","").replace("'",""))): #Sorting the dictionary, ignoring whitespace, fullstops and apostrophes
+               orderedDict[k] = dictAthletes[k] 
+               print(k, orderedDict[k])
            #Use a for loop in order to arrange the keys in order of length by using the sorted method
 
         print('\n' * 2)
@@ -184,10 +198,20 @@ class Athletes:
 class AthletesChild(Athletes):
 
     def __init__(self):
+        """ This constructor inherits the Athletes class variable and methods which can be used in the child class and be overriden"""
         super().__init__()
         shortest = None
 
     def listNames(self,shortest):
+        """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
+           it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
+           it creates another empty dictionary where the data is sorted by the length of the names, regardless of whitespace, fullstops
+           or apostrophes. This method has been overriden from the parent 'Athletes' class into the AthletesChild class and takes a
+           boolean parameter named shortest in order to differentiate from the parent method and choose between showing the shortest
+           and longest names in the main method"""
+
+
+
         if shortest == True:
             AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
             file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
@@ -229,6 +253,9 @@ class AthletesChild(Athletes):
                 if len(k.replace(" ","").replace(".","").replace("'","")) > 31:
                     orderedDict[k] = dictAthletes[k]
                     print(k, orderedDict[k])
+
+            #Use a for loop in order to arrange the keys in order of length by using the sorted and the replace method, 
+            #ignoring whitespace,full stops and apostrophes.
         
         
             print('\n' * 2)
@@ -256,6 +283,8 @@ print("If you'd like to list only the shortest athlete names please type 'SHORT'
 time.sleep(2)
 print("If you'd like to list only the longest athlete names please type 'LONG'", '\n')
 time.sleep(2)
+print("If you'd like to list all the athletes name from shortest to longest please type 'ALL NAMES'", '\n')
+time.sleep(2)
 print("If you'd like to list the top five countries by number of athletes please type 'COUNTRIES'", '\n')
 time.sleep(2)
 print("If you'd like to list the top discipline for the top five countries please type length please type 'DISCIPLINES'", '\n')
@@ -267,7 +296,7 @@ time.sleep(2)
 
 while True: #While loop in order to wait until a condition is met which is correct user input
     print('\n')
-    choice = input("Please type in your option -> ")
+    choice = input("Please type in your option -> ") #User input
     time.sleep(2)
     if choice.upper() == 'NAMES' or choice.lower() == 'names': #User input validation
         print('\n')
@@ -285,12 +314,9 @@ while True: #While loop in order to wait until a condition is met which is corre
             elif continueOption.lower() in ("n", "no"): 
                 print('\n')
                 time.sleep(1)
-                print("Thank you for visiting this database!")
+                del Adelekan
                 print('\n')
                 os._exit(1)
-                
-                
-                
 
             elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"): #User input validation
                 time.sleep(0.5)
@@ -299,9 +325,9 @@ while True: #While loop in order to wait until a condition is met which is corre
             
 
                
-    elif choice.upper() == 'SHORT' or choice.lower() == 'short':
+    elif choice.upper() == 'SHORT' or choice.lower() == 'short': #Elif statements for each user choice
         print('\n')
-        AdelekanChild = AthletesChild()
+        AdelekanChild = AthletesChild() #Creates object of child class 'AthletesChild' when short or long choice is picked
         AdelekanChild.listNames(True)
         time.sleep(2)
         while True:
@@ -315,17 +341,15 @@ while True: #While loop in order to wait until a condition is met which is corre
                 
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
-                print("Thank you for visiting this database!")
+                del AdelekanChild
                 print('\n')
                 os._exit(1)
-                
-                
-                
 
             elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
                 time.sleep(1)
                 print('\n')
                 print("Invalid answer, please type Y or N")
+
 
 
     elif choice.upper() == 'LONG' or choice.lower() == 'long':
@@ -344,17 +368,42 @@ while True: #While loop in order to wait until a condition is met which is corre
                 
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
-                print("Thank you for visiting this database!")
+                del AdelekanChild
                 print('\n')
                 os._exit(1)
-                
-                
-                
 
             elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
                 time.sleep(1)
                 print('\n')
                 print("Invalid answer, please type Y or N")
+
+
+
+    elif choice.upper() == 'ALL NAMES' or choice.lower() == 'all names':
+        print('\n')
+        Adelekan.listNamesByLength()
+        time.sleep(2)
+        while True:
+            continueOption = input("Would you like to find out more information? Y/N  " '\n')
+            if continueOption.lower() in ("y", "yes"):
+                print('\n')
+                time.sleep(1)
+                print ("Great! " '\n')
+                time.sleep(1)
+                break
+                
+            elif continueOption.lower() in ("n", "no"):
+                print('\n')
+                del Adelekan
+                print('\n')
+                os._exit(1)
+
+            elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
+                time.sleep(1)
+                print('\n')
+                print("Invalid answer, please type Y or N")
+
+
 
     elif choice.upper() == 'COUNTRIES' or choice.lower() == 'countries':
         print('\n')
@@ -371,17 +420,16 @@ while True: #While loop in order to wait until a condition is met which is corre
                 
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
-                print("Thank you for visiting this database!")
+                del Adelekan
                 print('\n')
                 os._exit(1)
-                
-                
-                
 
             elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
                 time.sleep(1)
                 print('\n')
                 print("Invalid answer, please type Y or N")
+
+
 
     elif choice.upper() == 'DISCIPLINES' or choice.lower() == 'disciplines':
         print('\n')
@@ -396,17 +444,16 @@ while True: #While loop in order to wait until a condition is met which is corre
                 
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
-                print("Thank you for visiting this database!")
+                del Adelekan
                 print('\n')
                 os._exit(1)
-                
-                
-                
 
             elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
                 time.sleep(1)
                 print('\n')
                 print("Invalid answer, please type Y or N")
+
+
 
     elif choice.upper() != "NAMES" or "COUNTRIES" or "DISCIPLINES" or choice.lower() != "names" or "countries" or "disciplines":
         print('\n')
