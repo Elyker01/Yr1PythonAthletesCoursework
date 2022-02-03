@@ -3,6 +3,7 @@ from collections import Counter
 import time
 import os
 import string
+from statistics import mode
 
 class Athletes:
     
@@ -17,6 +18,9 @@ class Athletes:
     def __del__(self):
         """ Destructor that deletes object of class Athletes and gives an exit message to the user
 
+        When an object of class Athlete is destroyed,
+        print out "Thank you for visiting this database!"
+
         >>> Adelekan = Athletes()
         >>> del Adelekan
         "Thank you for visiting this database!"
@@ -25,25 +29,34 @@ class Athletes:
         print("Thank you for visiting this database!")
     
 
-    def listNames(self):
+    def listNames(self, fileName):
 
         """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
            it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
            it creates another empty dictionary where the data is sorted by the length of the names, regardless of whitespace, fullstops
-           or apostrophes.
+           or apostrophes. 
+           
+           Doctests will show the functionality where it creates a generator object, and where it strips the full stops and whitespaces.
 
-        >>> with open("test.csv", 'r') as file:
-        ...     for column in file:
-        ...         column[0] = column[0].rstrip(".").rstrip() 
-        ...         if "." not in column[0]:
-        ...             print("True")
-        "True"
+          >>> Adelekan = Athletes()
+          >>> Adelekan.listNames('test.csv')
+          Generator object of class Athletes created in memory
+
+          >>> for k in Adelekan.listNames('test.csv'):
+          ...   print(k)
+          ('Ade', {'NOC': 'Norway', 'Discipline': 'Cycling Road'})
+          ('OBA', {'NOC': 'Spain', 'Discipline': 'Artistic Gymnastics'})
+          ('ADELEKAN ADELEKAN ADELEKAN ADELEKAN ADELEKAN', {'NOC': 'Italy', 'Discipline': 'Rowing'})
+          ('OBA OBA OBA OBA OBA OBA OBA ADELEKAN ELYKER ELYKER', {'NOC': 'Spain', 'Discipline': 'Basketball'})
+
           
-          
+
+
+
            """
 
 
-        AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+        AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
         file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
         
 
@@ -87,15 +100,36 @@ class Athletes:
 
 
 
-    def listNamesByLength(self):
+    def listNamesByLength(self, fileName):
         """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
            it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
            it creates another empty dictionary where the data is ordered by using the sorted method, using the length(ignoring whitespace,
-          fullstops and apostrophes) as the key. """
+          fullstops and apostrophes) as the key.
+
+          Open the test CSV file, and create a generator object of class Athletes.
+
+          >>> Adelekan = Athletes()
+          >>> Adelekan.listNamesByLength('test.csv')
+          Generator object of class Athletes created in memory
+
+          Iterate on the generator object and print out the names
+          in order of name length.
+
+          >>> for k in Adelekan.listNamesByLength('test.csv'):
+          ...      print(k)
+          ('Ade', {'NOC': 'Norway', 'Discipline': 'Cycling Road'})
+          ('OBA', {'NOC': 'Spain', 'Discipline': 'Artistic Gymnastics'})
+          ('ELYKER', {'NOC': 'Italy', 'Discipline': 'Athletics'})
+          ('KHAMISI', {'NOC': 'Japan', 'Discipline': 'Tennis'})
+          ('SALTYSKILLS', {'NOC': 'Nigeria', 'Discipline': 'Boxing'})
+          ('ADELEKAN ADELEKAN ADELEKAN ADELEKAN ADELEKAN', {'NOC': 'Italy', 'Discipline': 'Rowing'})
+          ('OBA OBA OBA OBA OBA OBA OBA ADELEKAN ELYKER ELYKER', {'NOC': 'Spain', 'Discipline': 'Basketball'})
+
+          """
 
 
 
-        AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+        AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
         file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
 
         dictAthletes = dict() #Create dictionary to store CSV sections
@@ -118,12 +152,26 @@ class Athletes:
         AthletesList.close()
 
         
-    def listTopFiveCountries(self):
+    def listTopFiveCountries(self,fileName):
         """ Opens and reads the CSV file using the DictReader method, then creates an empty list for the column NOC and appends the data in
             the column, to the NOC list. Uses the dict subclass 'Counter' in order to list the most common NOC's in the list and uses it in the sorted
-            method in order to print the NOC's in alphabetical order, in case two or more countries have the same number of Athletes. """
-        
-        AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+            method in order to print the NOC's in alphabetical order, in case two or more countries have the same number of Athletes.
+
+            Open the test CSV file, and print out the countries with
+            the highest number of athletes.
+
+            >>> Adelekan = Athletes()
+            >>> Adelekan.listTopFiveCountries('test.csv')
+            ('United States of America', 2)
+            ('Japan', 2)
+            ('Australia', 1)
+            ('China', 1)
+            ('Germany', 1)
+
+
+        """
+
+        AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
         file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
 
         NOC = []
@@ -140,15 +188,34 @@ class Athletes:
                 
         #This will then sort the count descending and then will sort by name ascending in case there is NOC's with the same number of athletes.
 
-    def listTopDiscipline(self):
+    def listTopDiscipline(self,fileName):
         """ Opens and reads the CSV file using the DictReader method and creates lists for the 5 countries with the highest number of athletes for the NOC
             and the Discipline, in order to avoid lists being overwritten. For each column in the file, it will filter through it to find all the cells that
             contain the names of the top 5 NOC's. It will then append the cells that contain the data for the respective NOC's and adds them to the respective lists.
             Lastly, for each NOC, it will use the dict subclass Counter in order to find the most common Discipline for each NOC, and uses that inside the
-            sorted method in order to sort for alphabetical order, in case disciplines have the same number of NOC's. """
+            sorted method in order to sort for alphabetical order, in case disciplines have the same number of NOC's. 
+
+            Open the test CSV file and print out the most common discipline for each country
+            that has the highest number of athletes.
+            
+            >>> Adelekan = Athletes()
+            >>> Adelekan.listTopDiscipline('test.csv')
+            The top discipline in the United States of America is :
+            ('Cycling Road', 1)
+            The top discipline in Japan is :
+            ('Artistic Gymnastics', 1)
+            The top discipline in Australia is :
+            ('Rowing', 1)
+            The top discipline in China is :
+            ('Basketball', 1)
+            The top discipline in Germany is :
+            ('Athletics', 1)
+            
+            """
         
-        AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+        AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
         file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+
 
         nocUSA = []
         disciplineUSA = []
@@ -165,6 +232,7 @@ class Athletes:
 
         nocGermany = []
         disciplineGermany = []
+
 
         #Empty lists are created for all the top 5 countries so that they don't get overwritten.
 
@@ -210,9 +278,6 @@ class Athletes:
         AthletesList.close()
 
 
-
-
-
 class AthletesChild(Athletes):
 
     def __init__(self):
@@ -220,18 +285,29 @@ class AthletesChild(Athletes):
         super().__init__()
 
 
-    def listNames(self,shortest):
+    def listNames(self,fileName,shortest):
         """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
            it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
            it creates another empty dictionary where the data is sorted by the length of the names, regardless of whitespace, fullstops
            or apostrophes. This method has been overriden from the parent 'Athletes' class into the AthletesChild class and takes a
            boolean parameter named shortest in order to differentiate from the parent method and choose between showing the shortest
-           and longest names in the main method"""
+           and longest names in the main method
+
+           Open and read the test CSV file, and given the shortest parameter is True,
+           print out the shortest names in the CSV file.
+
+           >>> AdelekanChild = AthletesChild()
+           >>> AdelekanChild.listNames('test.csv',True)
+           Ade, {'NOC': 'Norway', 'Discipline': 'Cycling Road'}
+           OBA, {'NOC': 'Spain', 'Discipline': 'Artistic Gymnastics'}
+          
+          """
+
 
 
 
         if shortest == True:
-            AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+            AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
             file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
         
 
@@ -254,13 +330,14 @@ class AthletesChild(Athletes):
             AthletesList.close()
 
       
-        def innerListNames(longest):
+        def innerListNames(fileName,longest):
             """ Inner function here with a decorator in the main function which is then called when the user inputs 'long' when prompted. It opens the CSV file and creates an empty dict.
                 It then appends each column and adds it to the key/value. Lastly, it prints out all the keys and values where the name is longer than
-                31 characters (ignoring whitespace, fullstops and apostrophes). """
+                31 characters (ignoring whitespace, fullstops and apostrophes).
+                """
 
             if longest == False:
-                AthletesList = open('Athletes.csv', 'r') #Open Athletes.csv in read mode
+                AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
                 file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
         
 
@@ -329,7 +406,7 @@ while True: #While loop in order to wait until a condition is met which is corre
     time.sleep(2)
     if choice.upper() == 'NAMES' or choice.lower() == 'names': #User input validation
         print('\n')
-        for k in Adelekan.listNames():
+        for k in Adelekan.listNames('Athletes.csv'):
             print(k)
         time.sleep(2)
 
@@ -357,7 +434,7 @@ while True: #While loop in order to wait until a condition is met which is corre
                
     elif choice.upper() == 'SHORT' or choice.lower() == 'short': #Elif statements for each user choice
         print('\n')
-        AdelekanChild.listNames(True)
+        AdelekanChild.listNames('Athletes.csv',True)
         time.sleep(2)
         while True:
             continueOption = input("Would you like to find out more information? Y/N  " '\n')
@@ -383,8 +460,8 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'LONG' or choice.lower() == 'long':
         print('\n')
-        listLongest = AdelekanChild.listNames(False) #Function decorator here which calls on the inner function
-        listLongest(False)
+        listLongest = AdelekanChild.listNames('Athletes.csv',False) #Function decorator here which calls on the inner function
+        listLongest('Athletes.csv',False)
         time.sleep(2)
         while True:
             continueOption = input("Would you like to find out more information? Y/N  " '\n')
@@ -410,7 +487,7 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'ALL NAMES' or choice.lower() == 'all names':
         print('\n')
-        for k in Adelekan.listNamesByLength(): #Generator that is created in that function is now iterated upon, and prints out the dictionary
+        for k in Adelekan.listNamesByLength('Athletes.csv'): #Generator that is created in that function is now iterated upon, and prints out the dictionary
             print(k)
         time.sleep(2)
         while True:
@@ -437,7 +514,7 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'COUNTRIES' or choice.lower() == 'countries':
         print('\n')
-        Adelekan.listTopFiveCountries()
+        Adelekan.listTopFiveCountries('Athletes.csv')
         time.sleep(2)
         while True:
             continueOption = input("Would you like to find out more information? Y/N  " '\n')
@@ -463,7 +540,7 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'DISCIPLINES' or choice.lower() == 'disciplines':
         print('\n')
-        Adelekan.listTopDiscipline()
+        Adelekan.listTopDiscipline('Athletes.csv')
         while True:
             continueOption = input("Would you like to find out more information? Y/N  " '\n')
             if continueOption.lower() in ("y", "yes"):
