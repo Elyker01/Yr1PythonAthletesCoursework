@@ -59,21 +59,25 @@ class Athletes:
 
         dictAthletes = dict() #Create dictionary to store CSV sections
         for column in file:
-            column["Name"] = column["Name"].rstrip(".").rstrip() #rstrip() method removes full stops and trailing whitespace
+            column["Name"] = column["Name"].rstrip(".").rstrip() 
+            #rstrip() method removes full stops and trailing whitespace
             key = column["Name"]
             value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
             dictAthletes[key]= value
 
-        #Iterate through the CSV file and set the column Name as the key, and the NOC and Discipline as the values.
+        #Iterate through the CSV file and set the column Name as the key, 
+        #and the NOC and Discipline as the values.
 
 
         orderedDict = {}
         for k in sorted(dictAthletes, key = len):
             if len(k.replace(" ","").replace(".","").replace("'","")) < 5:
                 orderedDict[k] = dictAthletes[k]
-                yield(k, orderedDict[k]) #Generator is created here which is then iterated upon in main method
+                yield(k, orderedDict[k]) 
+                #Generator is created here which is then iterated upon in main method
 
-        #Use a for loop in order to arrange the keys in order of length by using the sorted and the replace method, 
+        #Use a for loop in order to arrange the keys in order of length
+        #by using the sorted and the replace method, 
         #ignoring whitespace,full stops and apostrophes.
           
             if len(k.replace(" ","").replace(".","").replace("'","")) > 31:
@@ -124,20 +128,23 @@ class Athletes:
 
 
 
-        AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
-        file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+        AthletesList = open(fileName, 'r') 
+        file = csv.DictReader(AthletesList) 
 
-        dictAthletes = dict() #Create dictionary to store CSV sections
+        dictAthletes = dict() 
         for column in file:
-            column["Name"] = column["Name"].rstrip(".").rstrip() #rstrip() method removes full stops and trailing whitespace
+            column["Name"] = column["Name"].rstrip(".").rstrip()
             key = column["Name"]
             value = {"NOC": column["NOC"], "Discipline": column["Discipline"]}
             dictAthletes[key]= value
    
-            #Iterate through the CSV file and set the column Name as the key, and the NOC and Discipline as the values.
+            #Iterate through the CSV file and set the column Name as the key,
+            #and the NOC and Discipline as the values.
 
         orderedDict = {}
-        for k in sorted(dictAthletes, key=lambda k: len(k.replace(' ', '').replace(".","").replace("'",""))): #Sorting the dictionary, ignoring whitespace, fullstops and apostrophes
+        for k in sorted(dictAthletes,
+                       key=lambda k: len(k.replace(' ', '').replace(".","").replace("'",""))): 
+        #Sorting the dictionary, ignoring whitespace, fullstops and apostrophes
                orderedDict[k] = dictAthletes[k] 
                yield(k, orderedDict[k])
            #Use a for loop in order to arrange the keys in order of length by using the sorted method
@@ -168,24 +175,28 @@ class Athletes:
 
         """
 
-        AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
-        file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
-        
+        AthletesList = open(fileName, 'r') 
+        file = csv.DictReader(AthletesList)
 
         NOC = []
         for column in file:
-            NOC.append(column["NOC"]) #Add the data in the NOC section of the CSV to the NOC list
+            NOC.append(column["NOC"]) 
+            #Add the data in the NOC section of the CSV to the NOC list
 
         print ("The top five countries with the highest number of athletes are : ", '\n')
-        print(*sorted(Counter(NOC).most_common(5), key=lambda x: (-x[1], x[0])), sep = '\n') 
-        #Use counter in order to count the most common values for the NOC, with their respective number of athletes
-        #and lambda function in order to sort it alphabetically, in case they have the same number of athletes .
+        print(*sorted(Counter(NOC).most_common(5),
+                     key=lambda x: (-x[1], x[0])), sep = '\n') 
+        #Use counter in order to count the most common values for the NOC,
+        #with their respective number of athletes
+        #and lambda function in order to sort it alphabetically, 
+        #in case they have the same number of athletes .
         print ('\n' * 2)
 
         AthletesList.close()
         
                 
-        #This will then sort the count descending and then will sort by name ascending in case there is NOC's with the same number of athletes.
+        #This will then sort the count descending and then will sort by name ascending
+        #in case there is NOC's with the same number of athletes.
 
 
 
@@ -223,8 +234,8 @@ class Athletes:
             
             """
         
-        AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
-        file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+        AthletesList = open(fileName, 'r') 
+        file = csv.DictReader(AthletesList)
         NOC = []
         nocFirst = []
         disciplineFirst = []
@@ -240,8 +251,6 @@ class Athletes:
 
         nocFifth = []
         disciplineFifth = []
-
-       
 
         for column in file:
             NOC.append(column["NOC"])
@@ -268,27 +277,29 @@ class Athletes:
                 nocFifth.append(column["NOC"])
                 disciplineFifth.append(column["Discipline"])
 
-
-
-        #Empty lists are created for all the top 5 countries so that they don't get overwritten.
-
         #For loop which will append the NOC and Discipline column
-        #to the respective empty list for the country by using if statements to filter
+        #to the respective empty list for the country
+        #by using if statements to filter
         
         print("The top discipline in", NOC1[0], "is : "),
-        print(*sorted(Counter(disciplineFirst).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
+        print(*sorted(Counter(disciplineFirst).most_common(1), 
+                      key=lambda x: (-x[1], x[0])), sep = '\n')
 
         print("The top discipline in", NOC2[0], "is : ")
-        print(*sorted(Counter(disciplineSecond).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n') 
+        print(*sorted(Counter(disciplineSecond).most_common(1),
+                     key=lambda x: (-x[1], x[0])), sep = '\n') 
 
         print("The top discipline in", NOC3[0], "is : ")
-        print(*sorted(Counter(disciplineThird).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n') 
+        print(*sorted(Counter(disciplineThird).most_common(1),
+                     key=lambda x: (-x[1], x[0])), sep = '\n') 
 
         print("The top discipline in", NOC4[0], "is : ")
-        print(*sorted(Counter(disciplineFourth).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n') 
+        print(*sorted(Counter(disciplineFourth).most_common(1),
+                     key=lambda x: (-x[1], x[0])), sep = '\n') 
 
         print("The top discipline in", NOC5[0], "is : ")
-        print(*sorted(Counter(disciplineFifth).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n') 
+        print(*sorted(Counter(disciplineFifth).most_common(1),
+                     key=lambda x: (-x[1], x[0])), sep = '\n') 
         #Using sorted method and counter in order to find the most common sport
         #in the USA's discipline list
         #and also ordering it by alphabetical order,
@@ -296,12 +307,6 @@ class Athletes:
 
         AthletesList.close()
 
-
-
-
-
-
-        
 
 
 class AthletesChild(Athletes):
@@ -314,13 +319,16 @@ class AthletesChild(Athletes):
     def listNames(self,fileName,shortest):
         """Opens and reads the CSV file using the DictReader method, 
            then creates an empty dictionary where for each column in the file,
-           it will add the Name column as the key, and the NOC and Discipline columns as the value. 
-           After that, it creates another empty dictionary where the data is sorted by the length of the names, 
+           it will add the Name column as the key,
+           and the NOC and Discipline columns as the value. 
+           After that, it creates another empty dictionary 
+           where the data is sorted by the length of the names, 
            regardless of whitespace, fullstops or apostrophes.
            This method has been overriden from the parent 'Athletes' class 
-           into the AthletesChild class and takes a boolean parameter named shortest in order to differentiate 
-           from the parent method and choose between showing the shortest
-           and longest names in the main method
+           into the AthletesChild class and takes a boolean parameter named shortest
+           in order to differentiate from the parent method
+           and choose between showing the shortest
+           and longest names in the main method.
 
            Open and read the test CSV file, and given the shortest parameter is True,
            print out the shortest names in the CSV file.
@@ -333,11 +341,11 @@ class AthletesChild(Athletes):
           """
 
         if shortest == True:
-            AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
-            file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+            AthletesList = open(fileName, 'r') 
+            file = csv.DictReader(AthletesList) 
         
 
-            dictAthletes = dict() #Create dictionary to store CSV sections
+            dictAthletes = dict()
             for column in file:
                 column["Name"] = column["Name"].rstrip(".").rstrip()
                 key = column["Name"]
@@ -356,7 +364,8 @@ class AthletesChild(Athletes):
             AthletesList.close()
 
         def innerListNames(fileName,longest):
-            """ Inner function here with a decorator in the main function which is then called when the user inputs 'long' when prompted. 
+            """ Inner function here with a decorator in the main function 
+                which is then called when the user inputs 'long' when prompted. 
                 It opens the CSV file and creates an empty dict.
                 It then appends each column and adds it to the key/value.
                 Lastly, it prints out all the keys and values where the name is longer than
@@ -364,11 +373,11 @@ class AthletesChild(Athletes):
                 """
 
             if longest == False:
-                AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
-                file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+                AthletesList = open(fileName, 'r') 
+                file = csv.DictReader(AthletesList) 
         
 
-                dictAthletes = dict() #Create dictionary to store CSV sections
+                dictAthletes = dict() 
                 for column in file:
                     column["Name"] = column["Name"].rstrip(".").rstrip()
                     key = column["Name"]
@@ -385,7 +394,8 @@ class AthletesChild(Athletes):
             AthletesList.close()
         return innerListNames
 
-                #Use a for loop in order to arrange the keys in order of length by using the sorted and the replace method, 
+                #Use a for loop in order to arrange the keys in order of length
+                #by using the sorted and the replace method, 
                 #ignoring whitespace,full stops and apostrophes.
         
         
@@ -427,17 +437,21 @@ print("If you'd like to list the top discipline for the top five countries pleas
 
 
 
-while True: #While loop in order to wait until a condition is met which is correct user input
+while True: 
+    #While loop in order to wait until a condition is met which is correct user input
     print('\n')
-    choice = input("Please type in your option -> ") #User input
+    choice = input("Please type in your option -> ") 
+    #User input
     time.sleep(2)
-    if choice.upper() == 'NAMES' or choice.lower() == 'names': #User input validation
+    if choice.upper() == 'NAMES' or choice.lower() == 'names': 
+        #User input validation
         print('\n')
         for k in Adelekan.listNames('Athletes.csv'):
             print(k)
         time.sleep(2)
 
-        while True: #Nested while loop to check if user wants to find out more information e.g run the code above
+        while True: 
+            #Nested while loop to check if user wants to find out more information e.g run the code above
             continueOption = input("Would you like to find out more information? Y/N  " '\n')
             if continueOption.lower() in ("y", "yes"):
                 time.sleep(1)
@@ -453,14 +467,15 @@ while True: #While loop in order to wait until a condition is met which is corre
                 print('\n')
                 os._exit(1)
 
-            elif continueOption.lower() not in("y","yes") or continueOption.lower() not in ("n", "no"): #User input validation
+            elif continueOption.lower() not in("y","yes") or continueOption.lower() not in ("n", "no"): 
                 time.sleep(0.5)
                 print('\n')
                 print("Invalid answer, please type Y or N")
             
 
                
-    elif choice.upper() == 'SHORT' or choice.lower() == 'short': #Elif statements for each user choice
+    elif choice.upper() == 'SHORT' or choice.lower() == 'short': 
+        #Elif statements for each user choice
         print('\n')
         AdelekanChild.listNames('Athletes.csv',True)
         time.sleep(2)
@@ -489,7 +504,8 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'LONG' or choice.lower() == 'long':
         print('\n')
-        listLongest = AdelekanChild.listNames('Athletes.csv',False) #Function decorator here which calls on the inner function
+        listLongest = AdelekanChild.listNames('Athletes.csv',False) 
+        #Function decorator here which calls on the inner function
         listLongest('Athletes.csv',False)
         time.sleep(2)
         while True:
@@ -517,7 +533,8 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'ALL NAMES' or choice.lower() == 'all names':
         print('\n')
-        for k in Adelekan.listNamesByLength('Athletes.csv'): #Generator that is created in that function is now iterated upon, and prints out the dictionary
+        for k in Adelekan.listNamesByLength('Athletes.csv'): 
+            #Generator that is created in that function is now iterated upon, and prints out the dictionary
             print(k)
         time.sleep(2)
         while True:
