@@ -107,9 +107,9 @@ class Athletes:
 
         orderedDict = {}
         for k in sorted(dictAthletes, key = len):
-            if len(k.replace(" ","").replace(".","").replace("'","")) < 5:
+            if len(k.replace(" ","").replace(".","").replace("'","")) < 5:    
                 orderedDict[k] = dictAthletes[k]
-                yield(k, orderedDict[k]) 
+                yield(k, orderedDict[k])
                 #Generator is created here which is then iterated upon in main method
 
         #Use a for loop in order to arrange the keys in order of length
@@ -540,19 +540,19 @@ Adelekan = Athletes() #Create an object of class athletes
 AdelekanChild = AthletesChild() # Create an object of child class
 
 print("Hello and welcome to the Tokyo Olympics 2020 Database.", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list the shortest and longest athlete names please type 'NAMES'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list only the shortest athlete names please type 'SHORT'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list only the longest athlete names please type 'LONG'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list all the athletes name from shortest to longest please type 'ALL NAMES'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list the top five countries by number of athletes please type 'COUNTRIES'", '\n')
-#time.sleep(2)
+time.sleep(2)
 print("If you'd like to list the top discipline for the top five countries please type length please type 'DISCIPLINES'", '\n')
-#time.sleep(2)
+time.sleep(2)
 
 #Print statements to start off the program and show the user what they need to type once prompted
 
