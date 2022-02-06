@@ -540,6 +540,8 @@ if __name__ == "__main__":
 Adelekan = Athletes() #Create an object of class athletes
 AdelekanChild = AthletesChild() # Create an object of child class
 
+print("----------------------------------------------------------------------")
+print("\n")
 print("Hello and welcome to the Tokyo Olympics 2020 Database.", '\n')
 time.sleep(2)
 print("If you'd like to list the shortest and longest athlete names please type 'NAMES'", '\n')
