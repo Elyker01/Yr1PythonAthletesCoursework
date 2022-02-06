@@ -77,10 +77,10 @@ class Athletes:
 
           >>> for k in Adelekan.listNames('test.csv'):
           ...   print(k)
-          ('Ade', {'NOC': 'Norway', 'Discipline': 'Cycling Road'})
-          ('OBA', {'NOC': 'Spain', 'Discipline': 'Artistic Gymnastics'})
-          ('ADELEKAN ADELEKAN ADELEKAN ADELEKAN ADELEKAN', {'NOC': 'Italy', 'Discipline': 'Rowing'})
-          ('OBA OBA OBA OBA OBA OBA OBA ADELEKAN ELYKER ELYKER', {'NOC': 'Spain', 'Discipline': 'Basketball'})
+          ('Ade', {'NOC': 'United States of America', 'Discipline': 'Cycling Road'})
+          ('OBA', {'NOC': 'Japan', 'Discipline': 'Artistic Gymnastics'})
+          ('ADELEKAN ADELEKAN ADELEKAN ADELEKAN ADELEKAN', {'NOC': 'Australia', 'Discipline': 'Rowing'})
+          ('OBA OBA OBA OBA OBA OBA OBA ADELEKAN ELYKER ELYKER', {'NOC': 'China ', 'Discipline': 'Basketball'})
 
           
 
@@ -106,7 +106,7 @@ class Athletes:
 
 
         orderedDict = {}
-        for k in sorted(dictAthletes, key = len):
+        for k in sorted(dictAthletes, key=lambda k: len(k.replace(' ', '').replace(".","").replace("'",""))):
             if len(k.replace(" ","").replace(".","").replace("'","")) < 5:    
                 orderedDict[k] = dictAthletes[k]
                 yield(k, orderedDict[k])
@@ -169,13 +169,13 @@ class Athletes:
 
           >>> for k in Adelekan.listNamesByLength('test.csv'):
           ...      print(k)
-          ('Ade', {'NOC': 'Norway', 'Discipline': 'Cycling Road'})
-          ('OBA', {'NOC': 'Spain', 'Discipline': 'Artistic Gymnastics'})
-          ('ELYKER', {'NOC': 'Italy', 'Discipline': 'Athletics'})
+          ('Ade', {'NOC': 'United States of America', 'Discipline': 'Cycling Road'})
+          ('OBA', {'NOC': 'Japan', 'Discipline': 'Artistic Gymnastics'})
+          ('ELYKER', {'NOC': 'Germany', 'Discipline': 'Athletics'})
           ('KHAMISI', {'NOC': 'Japan', 'Discipline': 'Tennis'})
-          ('SALTYSKILLS', {'NOC': 'Nigeria', 'Discipline': 'Boxing'})
-          ('ADELEKAN ADELEKAN ADELEKAN ADELEKAN ADELEKAN', {'NOC': 'Italy', 'Discipline': 'Rowing'})
-          ('OBA OBA OBA OBA OBA OBA OBA ADELEKAN ELYKER ELYKER', {'NOC': 'Spain', 'Discipline': 'Basketball'})
+          ('SALTYSKILLS', {'NOC': 'United States of America', 'Discipline': 'Boxing'})
+          ('ADELEKAN ADELEKAN ADELEKAN ADELEKAN ADELEKAN', {'NOC': 'Australia', 'Discipline': 'Rowing'})
+          ('OBA OBA OBA OBA OBA OBA OBA ADELEKAN ELYKER ELYKER', {'NOC': 'China ', 'Discipline': 'Basketball'})
 
           """
 
@@ -195,8 +195,7 @@ class Athletes:
             #and the NOC and Discipline as the values.
 
         orderedDict = {}
-        for k in sorted(dictAthletes,
-                       key=lambda k: len(k.replace(' ', '').replace(".","").replace("'",""))): 
+        for k in sorted(dictAthletes, key=lambda k: len(k.replace(' ', '').replace(".","").replace("'",""))): 
         #Sorting the dictionary, ignoring whitespace, fullstops and apostrophes
                orderedDict[k] = dictAthletes[k] 
                yield(k, orderedDict[k])
@@ -463,7 +462,8 @@ class AthletesChild(Athletes):
 
 
             orderedDict = {}
-            for k in sorted(dictAthletes, key = len):
+            for k in sorted(dictAthletes, key=lambda k: 
+                            len(k.replace(' ', '').replace(".","").replace("'",""))):
                 if len(k.replace(" ","").replace(".","").replace("'","")) < 5:
                     orderedDict[k] = dictAthletes[k]
                     print(k, orderedDict[k])
@@ -507,7 +507,8 @@ class AthletesChild(Athletes):
 
 
                 orderedDict = {}
-                for k in sorted(dictAthletes, key = len):
+                for k in sorted(dictAthletes, key=lambda k:
+                               len(k.replace(' ', '').replace(".","").replace("'",""))):
                     if len(k.replace(" ","").replace(".","").replace("'","")) > 31:
                         orderedDict[k] = dictAthletes[k]
                         print(k, orderedDict[k])
