@@ -3,40 +3,37 @@ from collections import Counter
 import time
 import os
 import string
-from statistics import mode
+
 
 class Athletes:
     
     def __init__(self):
         """ 
-        Constructor that creates an object of class Athletes and contains a boolean variable named isCreated
+        Constructor that creates an object of class Athletes
+        and contains a boolean variable named isCreated which is used
         in order to check whether the object has been created successfully.
         """
 
         isCreated = True
         
     def __del__(self):
-        """ Destructor that deletes object of class Athletes and gives an exit message to the user
+        """ 
+        Destructor that deletes object of class Athletes
 
-        When an object of class Athlete is destroyed,
-        print out "Thank you for visiting this database!"
-
-        >>> Adelekan = Athletes()
-        >>> del Adelekan
-        "Thank you for visiting this database!"
         """
-
-        print("Thank you for visiting this database!")
     
-
     def listNames(self, fileName):
 
-        """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
-           it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
-           it creates another empty dictionary where the data is sorted by the length of the names, regardless of whitespace, fullstops
-           or apostrophes. 
+        """Opens and reads the CSV file using the DictReader method,
+           then creates an empty dictionary where for each column in the file,
+           it will add the Name column as the key,
+           and the NOC and Discipline columns as the value.
+           After that, it creates another empty dictionary 
+           where the data is sorted by the length of the names, 
+           regardless of whitespace, fullstops or apostrophes. 
            
-           Doctests will show the functionality where it creates a generator object, and where it strips the full stops and whitespaces.
+           Doctests will show the functionality where it creates a generator object, 
+           and where it strips the full stops and whitespaces.
 
           >>> Adelekan = Athletes()
           >>> Adelekan.listNames('test.csv')
@@ -95,16 +92,14 @@ class Athletes:
             """ Method that checks whether object of class Athletes has been created """
             return isCreated
  
-                
-
-
-
-
     def listNamesByLength(self, fileName):
-        """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
-           it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
-           it creates another empty dictionary where the data is ordered by using the sorted method, using the length(ignoring whitespace,
-          fullstops and apostrophes) as the key.
+        """Opens and reads the CSV file using the DictReader method,
+           then creates an empty dictionary where for each column in the file,
+           it will add the Name column as the key, 
+           and the NOC and Discipline columns as the value. After that,
+           it creates another empty dictionary where the data is ordered
+           by using the sorted method, using the length(ignoring whitespace,
+           fullstops and apostrophes) as the key.
 
           Open the test CSV file, and create a generator object of class Athletes.
 
@@ -151,19 +146,21 @@ class Athletes:
 
         AthletesList.close()
 
-        
     def listTopFiveCountries(self,fileName):
-        """ Opens and reads the CSV file using the DictReader method, then creates an empty list for the column NOC and appends the data in
-            the column, to the NOC list. Uses the dict subclass 'Counter' in order to list the most common NOC's in the list and uses it in the sorted
-            method in order to print the NOC's in alphabetical order, in case two or more countries have the same number of Athletes.
+        """ Opens and reads the CSV file using the DictReader method,
+            then creates an empty list for the column NOC and appends the data in
+            the column, to the NOC list. Uses the dict subclass 'Counter' 
+            in order to list the most common NOC's in the list and uses it in the sorted
+            method in order to print the NOC's in alphabetical order, 
+            in case two or more countries have the same number of Athletes.
 
             Open the test CSV file, and print out the countries with
             the highest number of athletes.
 
             >>> Adelekan = Athletes()
             >>> Adelekan.listTopFiveCountries('test.csv')
-            ('United States of America', 2)
             ('Japan', 2)
+            ('United States of America', 2)
             ('Australia', 1)
             ('China', 1)
             ('Germany', 1)
@@ -173,14 +170,16 @@ class Athletes:
 
         AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
         file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+        
 
         NOC = []
         for column in file:
             NOC.append(column["NOC"]) #Add the data in the NOC section of the CSV to the NOC list
 
         print ("The top five countries with the highest number of athletes are : ", '\n')
-        print(*sorted(Counter(NOC).most_common(5), key=lambda x: (-x[1], x[0])), sep = '\n') #Use counter in order to count the most common values for the NOC, with their respective number of athletes
-                                                                                             #and lambda function in order to sort it alphabetically, in case they have the same number of athletes .
+        print(*sorted(Counter(NOC).most_common(5), key=lambda x: (-x[1], x[0])), sep = '\n') 
+        #Use counter in order to count the most common values for the NOC, with their respective number of athletes
+        #and lambda function in order to sort it alphabetically, in case they have the same number of athletes .
         print ('\n' * 2)
 
         AthletesList.close()
@@ -188,12 +187,23 @@ class Athletes:
                 
         #This will then sort the count descending and then will sort by name ascending in case there is NOC's with the same number of athletes.
 
+
+
     def listTopDiscipline(self,fileName):
-        """ Opens and reads the CSV file using the DictReader method and creates lists for the 5 countries with the highest number of athletes for the NOC
-            and the Discipline, in order to avoid lists being overwritten. For each column in the file, it will filter through it to find all the cells that
-            contain the names of the top 5 NOC's. It will then append the cells that contain the data for the respective NOC's and adds them to the respective lists.
-            Lastly, for each NOC, it will use the dict subclass Counter in order to find the most common Discipline for each NOC, and uses that inside the
-            sorted method in order to sort for alphabetical order, in case disciplines have the same number of NOC's. 
+        """ Opens and reads the CSV file using the DictReader method 
+            and creates lists for the 5 countries
+            with the highest number of athletes for the NOC and the Discipline.
+            For each column in the file, it will filter through to find all the cells that
+            contain the names of the top 5 NOC's.
+            It will then append the cells that contain the data for the respective NOC's
+            and adds them to the respective lists.
+            Each NOC is identified using the most common method used in the NOC column
+            and then the tuple is enumerated upon, assigning the countries in order
+            of an index, with 0 being the highest country and 4 being the lowest.
+            For each NOC, it will use the dict subclass Counter in order
+            to find the most common Discipline for each NOC, and uses that inside the
+            sorted method in order to sort for alphabetical order, 
+            in case disciplines have the same number of NOC's. 
 
             Open the test CSV file and print out the most common discipline for each country
             that has the highest number of athletes.
@@ -215,82 +225,101 @@ class Athletes:
         
         AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
         file = csv.DictReader(AthletesList) #Create an object containing the content in the csv file
+        NOC = []
+        nocFirst = []
+        disciplineFirst = []
 
+        nocSecond = []
+        disciplineSecond = []
 
-        nocUSA = []
-        disciplineUSA = []
+        nocThird = []
+        disciplineThird = []
 
+        nocFourth = []
+        disciplineFourth = []
 
-        nocJapan = []
-        disciplineJapan = []
+        nocFifth = []
+        disciplineFifth = []
 
-        nocAustralia = []
-        disciplineAustralia = []
+       
 
-        nocChina = []
-        disciplineChina = []
+        for column in file:
+            NOC.append(column["NOC"])
+            nocCounter = Counter(NOC)
+            topFiveCountries = nocCounter.most_common(5)
+            for number,value in enumerate(topFiveCountries): 
+                globals()[f'NOC{number + 1}'] = value
 
-        nocGermany = []
-        disciplineGermany = []
+        AthletesList.seek(0) #Read file from the start again
+        for column in file:
+            if NOC1[0] in column["NOC"]:
+                nocFirst.append(column["NOC"])
+                disciplineFirst.append(column["Discipline"])
+            elif NOC2[0] in column["NOC"]:
+                nocSecond.append(column["NOC"])
+                disciplineSecond.append(column["Discipline"])
+            elif NOC3[0] in column["NOC"]:
+                nocThird.append(column["NOC"])
+                disciplineThird.append(column["Discipline"])
+            elif NOC4[0] in column["NOC"]:
+                nocFourth.append(column["NOC"])
+                disciplineFourth.append(column["Discipline"])
+            elif NOC5[0] in column["NOC"]:
+                nocFifth.append(column["NOC"])
+                disciplineFifth.append(column["Discipline"])
+
 
 
         #Empty lists are created for all the top 5 countries so that they don't get overwritten.
 
-
-        for column in file:
-            if "United States of America" in column["NOC"]:
-                nocUSA.append(column["NOC"])
-                disciplineUSA.append(column["Discipline"])
-            if "Japan" in column["NOC"]:
-                nocJapan.append(column["NOC"])
-                disciplineJapan.append(column["Discipline"])
-            if "Australia" in column["NOC"]:
-                nocAustralia.append(column["NOC"])
-                disciplineAustralia.append(column["Discipline"])
-            if "China" in column["NOC"]:
-                nocChina.append(column["NOC"])
-                disciplineChina.append(column["Discipline"])
-            if "Germany" in column["NOC"]:
-                nocGermany.append(column["NOC"])
-                disciplineGermany.append(column["Discipline"])
-        #For loop which will append the NOC and Discipline column to the respective empty list for the country by using if statements to filter
+        #For loop which will append the NOC and Discipline column
+        #to the respective empty list for the country by using if statements to filter
         
-        print("The top discipline in the United States of America is : ")
-        print(*sorted(Counter(disciplineUSA).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n') #Using sorted method and counter in order to find the most common sport in the USA's discipline list and also ordering it by alphabetical order in case there is a sport with the same number of athletes.
-        print('\n' * 2)
+        print("The top discipline in", NOC1[0], "is : "),
+        print(*sorted(Counter(disciplineFirst).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
 
-        print("The top discipline in Japan is : ")
-        print(*sorted(Counter(disciplineJapan).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
-        print('\n' * 2)
+        print("The top discipline in", NOC2[0], "is : ")
+        print(*sorted(Counter(disciplineSecond).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n') 
 
-        print("The top discipline in Australia is : ")
-        print(*sorted(Counter(disciplineAustralia).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
-        print('\n' * 2)
+        print("The top discipline in", NOC3[0], "is : ")
+        print(*sorted(Counter(disciplineThird).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n') 
 
-        print("The top discipline in China is : ")
-        print(*sorted(Counter(disciplineChina).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
-        print('\n' * 2)
+        print("The top discipline in", NOC4[0], "is : ")
+        print(*sorted(Counter(disciplineFourth).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n') 
 
-        print("The top discipline in Germany is : ")
-        print(*sorted(Counter(disciplineGermany).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n')
-        print('\n' * 2)
+        print("The top discipline in", NOC5[0], "is : ")
+        print(*sorted(Counter(disciplineFifth).most_common(1), key=lambda x: (-x[1], x[0])), sep = '\n') 
+        #Using sorted method and counter in order to find the most common sport
+        #in the USA's discipline list
+        #and also ordering it by alphabetical order,
+        #in case there is a sport with the same number of athletes.
 
         AthletesList.close()
+
+
+
+
+
+
+        
 
 
 class AthletesChild(Athletes):
 
     def __init__(self):
-        """ This constructor inherits the Athletes class variable and methods which can be used in the child class and be overriden"""
+        """ This constructor inherits the Athletes class variable and methods 
+            which can be used in the child class and be overriden"""
         super().__init__()
 
-
     def listNames(self,fileName,shortest):
-        """Opens and reads the CSV file using the DictReader method, then creates an empty dictionary where for each column in the file,
-           it will add the Name column as the key, and the NOC and Discipline columns as the value. After that,
-           it creates another empty dictionary where the data is sorted by the length of the names, regardless of whitespace, fullstops
-           or apostrophes. This method has been overriden from the parent 'Athletes' class into the AthletesChild class and takes a
-           boolean parameter named shortest in order to differentiate from the parent method and choose between showing the shortest
+        """Opens and reads the CSV file using the DictReader method, 
+           then creates an empty dictionary where for each column in the file,
+           it will add the Name column as the key, and the NOC and Discipline columns as the value. 
+           After that, it creates another empty dictionary where the data is sorted by the length of the names, 
+           regardless of whitespace, fullstops or apostrophes.
+           This method has been overriden from the parent 'Athletes' class 
+           into the AthletesChild class and takes a boolean parameter named shortest in order to differentiate 
+           from the parent method and choose between showing the shortest
            and longest names in the main method
 
            Open and read the test CSV file, and given the shortest parameter is True,
@@ -302,9 +331,6 @@ class AthletesChild(Athletes):
            OBA, {'NOC': 'Spain', 'Discipline': 'Artistic Gymnastics'}
           
           """
-
-
-
 
         if shortest == True:
             AthletesList = open(fileName, 'r') #Open Athletes.csv in read mode
@@ -329,10 +355,11 @@ class AthletesChild(Athletes):
             print('\n' * 2)
             AthletesList.close()
 
-      
         def innerListNames(fileName,longest):
-            """ Inner function here with a decorator in the main function which is then called when the user inputs 'long' when prompted. It opens the CSV file and creates an empty dict.
-                It then appends each column and adds it to the key/value. Lastly, it prints out all the keys and values where the name is longer than
+            """ Inner function here with a decorator in the main function which is then called when the user inputs 'long' when prompted. 
+                It opens the CSV file and creates an empty dict.
+                It then appends each column and adds it to the key/value.
+                Lastly, it prints out all the keys and values where the name is longer than
                 31 characters (ignoring whitespace, fullstops and apostrophes).
                 """
 
@@ -382,19 +409,19 @@ Adelekan = Athletes() #Create an object of class athletes
 AdelekanChild = AthletesChild() # Create an object of child class
 
 print("Hello and welcome to the Tokyo Olympics 2020 Database.", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list the shortest and longest athlete names please type 'NAMES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list only the shortest athlete names please type 'SHORT'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list only the longest athlete names please type 'LONG'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list all the athletes name from shortest to longest please type 'ALL NAMES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list the top five countries by number of athletes please type 'COUNTRIES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 print("If you'd like to list the top discipline for the top five countries please type length please type 'DISCIPLINES'", '\n')
-time.sleep(2)
+#time.sleep(2)
 
 #Print statements to start off the program and show the user what they need to type once prompted
 
@@ -421,11 +448,12 @@ while True: #While loop in order to wait until a condition is met which is corre
             elif continueOption.lower() in ("n", "no"): 
                 print('\n')
                 time.sleep(1)
+                print("Thank you for vising this database!")
                 del Adelekan
                 print('\n')
                 os._exit(1)
 
-            elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"): #User input validation
+            elif continueOption.lower() not in("y","yes") or continueOption.lower() not in ("n", "no"): #User input validation
                 time.sleep(0.5)
                 print('\n')
                 print("Invalid answer, please type Y or N")
@@ -447,11 +475,12 @@ while True: #While loop in order to wait until a condition is met which is corre
                 
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
+                print("Thank you for vising this database!")
                 del AdelekanChild
                 print('\n')
                 os._exit(1)
 
-            elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
+            elif continueOption.lower() not in("y","yes") or continueOption.lower() not in ("n", "no"):
                 time.sleep(1)
                 print('\n')
                 print("Invalid answer, please type Y or N")
@@ -474,11 +503,12 @@ while True: #While loop in order to wait until a condition is met which is corre
                 
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
+                print("Thank you for vising this database!")
                 del AdelekanChild
                 print('\n')
                 os._exit(1)
 
-            elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
+            elif continueOption.lower() not in("y","yes") or continueOption.lower() not in ("n", "no"):
                 time.sleep(1)
                 print('\n')
                 print("Invalid answer, please type Y or N")
@@ -501,11 +531,12 @@ while True: #While loop in order to wait until a condition is met which is corre
                 
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
+                print("Thank you for vising this database!")
                 del Adelekan
                 print('\n')
                 os._exit(1)
 
-            elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
+            elif continueOption.lower() not in("y","yes") or continueOption.lower() not in ("n", "no"):
                 time.sleep(1)
                 print('\n')
                 print("Invalid answer, please type Y or N")
@@ -527,11 +558,12 @@ while True: #While loop in order to wait until a condition is met which is corre
                 
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
+                print("Thank you for vising this database!")
                 del Adelekan
                 print('\n')
                 os._exit(1)
 
-            elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
+            elif continueOption.lower() not in("y","yes") or continueOption.lower() not in ("n", "no"):
                 time.sleep(1)
                 print('\n')
                 print("Invalid answer, please type Y or N")
@@ -540,7 +572,10 @@ while True: #While loop in order to wait until a condition is met which is corre
 
     elif choice.upper() == 'DISCIPLINES' or choice.lower() == 'disciplines':
         print('\n')
+        print("Please wait...")
+        print("\n")
         Adelekan.listTopDiscipline('Athletes.csv')
+        time.sleep(1)
         while True:
             continueOption = input("Would you like to find out more information? Y/N  " '\n')
             if continueOption.lower() in ("y", "yes"):
@@ -551,11 +586,12 @@ while True: #While loop in order to wait until a condition is met which is corre
                 
             elif continueOption.lower() in ("n", "no"):
                 print('\n')
+                print("Thank you for vising this database!")
                 del Adelekan
                 print('\n')
                 os._exit(1)
 
-            elif continueOption.lower() not in( "y","yes") or continueOption.lower() not in ("n", "no"):
+            elif continueOption.lower() not in("y","yes") or continueOption.lower() not in ("n", "no"):
                 time.sleep(1)
                 print('\n')
                 print("Invalid answer, please type Y or N")
@@ -570,7 +606,8 @@ while True: #While loop in order to wait until a condition is met which is corre
         time.sleep(0.5)
         continue
     
-    #If the user inputs an invalid word, then it will loop back to the first while loop where the input begins. This is done in order to avoid the code breaking when incorrect input has been put in.
+    #If the user inputs an invalid word, then it will loop back to the first while loop where the input begins.
+    # This is done in order to avoid the code breaking when incorrect input has been put in.
 
         
 
