@@ -6,13 +6,40 @@ import string
 
 
 class Athletes:
+    """ 
+    Attributes
+    ----------
+    isCreated = bool
+        boolean to check object state
+
+    Methods
+    ----------
+    listNames(fileName)
+    Lists shortest and longest names in the file.
+
+    checkObjectState()
+    Checks whether the object is created or not.
+
+    listNamesByLength(fileName)
+    Lists all the names in the file, according to length and alphabetical order.
+
+    listTopFiveCountries(fileName)
+    Lists the top 5 countries with the highest number of athletes.
+
+    listTopDiscipline(fileName)
+    For the top 5 countries, it lists the top disciplines for each one.
+
+
+
+        """
     
     def __init__(self):
         """ 
         Constructor that creates an object of class Athletes
         and contains a boolean variable named isCreated which is used
         in order to check whether the object has been created successfully.
-        """
+
+       """
 
         isCreated = True
         
@@ -31,6 +58,15 @@ class Athletes:
            After that, it creates another empty dictionary 
            where the data is sorted by the length of the names, 
            regardless of whitespace, fullstops or apostrophes. 
+
+            Parameters
+            ----------
+            fileName : str
+                Name of CSV file to be opened.
+
+            Returns
+            -------
+            None
            
            Doctests will show the functionality where it creates a generator object, 
            and where it strips the full stops and whitespaces.
@@ -93,7 +129,15 @@ class Athletes:
 
         
         def checkObjectState(self):
-            """ Method that checks whether object of class Athletes has been created """
+            """ Method that checks whether object of class Athletes has been created 
+            Parameters
+            ----------
+            None
+
+            Returns
+            -------
+            isCreated
+            """
             return isCreated
  
     def listNamesByLength(self, fileName):
@@ -104,6 +148,15 @@ class Athletes:
            it creates another empty dictionary where the data is ordered
            by using the sorted method, using the length(ignoring whitespace,
            fullstops and apostrophes) as the key.
+
+            Parameters
+            ----------
+            fileName : str
+                Name of CSV file to be opened.
+
+            Returns
+            -------
+            None
 
           Open the test CSV file, and create a generator object of class Athletes.
 
@@ -161,6 +214,15 @@ class Athletes:
             method in order to print the NOC's in alphabetical order, 
             in case two or more countries have the same number of Athletes.
 
+            Parameters
+            ----------
+            fileName : str
+                Name of CSV file to be opened.
+
+            Returns
+            -------
+            None
+
             Open the test CSV file, and print out the countries with
             the highest number of athletes.
 
@@ -215,6 +277,15 @@ class Athletes:
             to find the most common Discipline for each NOC, and uses that inside the
             sorted method in order to sort for alphabetical order, 
             in case disciplines have the same number of NOC's. 
+
+            Parameters
+            ----------
+            fileName : str
+                Name of CSV file to be opened.
+
+            Returns
+            -------
+            None
 
             Open the test CSV file and print out the most common discipline for each country
             that has the highest number of athletes.
@@ -310,6 +381,32 @@ class Athletes:
 
 
 class AthletesChild(Athletes):
+    """
+    Attributes
+    ----------
+    isCreated = bool
+        boolean to check object state
+
+    Methods
+    ----------
+    listNames(fileName,shortest)
+    Lists shortest names in the file.
+
+    innerListNames(fileName,longest)
+    Lists longest names in the file. (Function Decorator)
+
+    checkObjectState()
+    Checks whether the object is created or not.
+
+    listNamesByLength(fileName)
+    Lists all the names in the file, according to length and alphabetical order.
+
+    listTopFiveCountries(fileName)
+    Lists the top 5 countries with the highest number of athletes.
+
+    listTopDiscipline(fileName)
+    For the top 5 countries, it lists the top disciplines for each one.
+    """
 
     def __init__(self):
         """ This constructor inherits the Athletes class variable and methods 
@@ -329,6 +426,18 @@ class AthletesChild(Athletes):
            in order to differentiate from the parent method
            and choose between showing the shortest
            and longest names in the main method.
+
+            Parameters
+            ----------
+            fileName : str
+                Name of CSV file to be opened.
+            
+            shortest : bool
+                if True, method will print the shortest names
+
+            Returns
+            -------
+            None
 
            Open and read the test CSV file, and given the shortest parameter is True,
            print out the shortest names in the CSV file.
@@ -370,6 +479,18 @@ class AthletesChild(Athletes):
                 It then appends each column and adds it to the key/value.
                 Lastly, it prints out all the keys and values where the name is longer than
                 31 characters (ignoring whitespace, fullstops and apostrophes).
+
+                Parameters
+                ----------
+                fileName : str
+                    Name of CSV file to be opened.
+            
+                longest : bool
+                    if False, method will print the longest names
+
+                Returns
+                -------
+                innerListNames
                 """
 
             if longest == False:
